@@ -7,6 +7,7 @@ import {Colors} from '../../../constants/Colors';
 
 // Theme Context
 import {ThemeContext} from '../../context/ThemeContext';
+import Toast from 'react-native-toast-message';
 
 type MoviesGridItemProps = {
   image: any;
@@ -26,6 +27,10 @@ const MoviesGridItem: React.FC<MoviesGridItemProps> = observer(
     let activeColors = (Colors as any)[theme.mode];
     console.log('image', image);
 
+    const handleAdd = () => {
+      movieStore.addMovie(movie);
+    };
+
     return (
       <Pressable
         style={[
@@ -35,7 +40,7 @@ const MoviesGridItem: React.FC<MoviesGridItemProps> = observer(
             shadowColor: activeColors.MidnightBlack,
           },
         ]}
-        onPress={() => movieStore.addMovie(movie)} // Add movie to the MobX store on press
+        onPress={handleAdd} // Add movie to the MobX store on press
       >
         <Image source={{uri: image}} style={styles.MoviesGridItemImage} />
         <Text

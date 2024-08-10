@@ -25,6 +25,10 @@ const MoviesListItem: React.FC<MoviesListItemProps> = observer(({movie}) => {
   const {theme} = useContext(ThemeContext);
   let activeColors = (Colors as any)[theme.mode];
 
+  const handleAdd = () => {
+    movieStore.addMovie(movie);
+  };
+
   if (!movie) {
     return <Text>No movie data available</Text>;
   }
@@ -38,7 +42,7 @@ const MoviesListItem: React.FC<MoviesListItemProps> = observer(({movie}) => {
           shadowColor: activeColors.MidnightBlack,
         },
       ]}
-      onPress={() => movieStore.addMovie(movie)} // Add movie to the MobX store on press
+      onPress={handleAdd} // Add movie to the MobX store on press
     >
       <Image
         source={{uri: movie.Poster}}

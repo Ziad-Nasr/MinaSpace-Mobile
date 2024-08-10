@@ -15,6 +15,7 @@ import {
   getLoginState,
   saveLoginState,
 } from './config/asyncStorage';
+import Toast from 'react-native-toast-message';
 
 function App(): React.JSX.Element {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -31,8 +32,12 @@ function App(): React.JSX.Element {
   return (
     <ThemeProvider>
       <UserProvider>
-        <NavigationContainer
-          children={<MainStackNavigator />}></NavigationContainer>
+        <NavigationContainer>
+          <>
+            <MainStackNavigator />
+            <Toast />
+          </>
+        </NavigationContainer>
       </UserProvider>
     </ThemeProvider>
   );

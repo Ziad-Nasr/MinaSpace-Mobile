@@ -38,10 +38,13 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
       });
   }, []);
 
+  const hangleSelectedMovies = () => {
+    navigation.navigate('SelectedMovie');
+  };
+
   const handleLogout = async () => {
     await clearLoginState();
-    // navigation.replace('Login');
-    navigation.navigate('SelectedMovie');
+    navigation.replace('Login');
   };
 
   let screenContent;
@@ -96,7 +99,19 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
           />
         </TouchableOpacity>
       </View>
-
+      <View style={styles.selectedMoviesView}>
+        <TouchableOpacity
+          style={styles.selectedMoviesbtn}
+          onPress={() => hangleSelectedMovies()}>
+          <Text style={styles.selectedMoviesText}>Selected Movies</Text>
+          <PropBasedIcon
+            color={Colors.PureWhite}
+            component={FontAwesomeIcon}
+            name={'share'}
+            size={20}
+          />
+        </TouchableOpacity>
+      </View>
       <TabScreenWrapper
         showNotificationButton={false}
         onBack={() => {}}
@@ -124,6 +139,27 @@ const styles = StyleSheet.create({
   },
   bigT: {
     fontSize: 22,
+  },
+  selectedMoviesView: {
+    marginTop: 5,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  selectedMoviesbtn: {
+    width: 170,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    borderRadius: 20,
+    backgroundColor: Colors.MidnightBlack,
+    flexDirection: 'row',
+  },
+  selectedMoviesText: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    marginRight: 7,
+    color: Colors.PureWhite,
   },
   logoutBtn: {
     width: 100,
