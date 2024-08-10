@@ -1,6 +1,7 @@
 import React, {useContext} from 'react';
 import {Image, Pressable, StyleSheet, Text} from 'react-native';
-
+import {observer} from 'mobx-react-lite';
+import movieStore from '../../redux/store';
 // Colors
 import {Colors} from '../../../constants/Colors';
 
@@ -10,34 +11,46 @@ import {ThemeContext} from '../../context/ThemeContext';
 type MoviesGridItemProps = {
   image: any;
   firstName: string;
+  movie: {
+    Title: string;
+    Year: string;
+    imdbID: string;
+    Type: string;
+    Poster: string;
+  };
 };
 
-const MoviesGridItem = ({image, firstName}: MoviesGridItemProps) => {
-  const {theme} = useContext(ThemeContext);
-  let activeColors = (Colors as any)[theme.mode];
-  console.log('image', image);
-  return (
-    <Pressable
-      style={[
-        styles.MoviesGridItemContainer,
-        {
-          backgroundColor: activeColors.PureWhite,
-          shadowColor: activeColors.MidnightBlack,
-        },
-      ]}>
-      <Image source={{uri: image}} style={styles.MoviesGridItemImage} />
-      <Text
+const MoviesGridItem: React.FC<MoviesGridItemProps> = observer(
+  ({image, firstName, movie}) => {
+    const {theme} = useContext(ThemeContext);
+    let activeColors = (Colors as any)[theme.mode];
+    console.log('image', image);
+
+    return (
+      <Pressable
         style={[
-          styles.MoviesGridItemName,
+          styles.MoviesGridItemContainer,
           {
-            color: activeColors.DeepInk,
+            backgroundColor: activeColors.PureWhite,
+            shadowColor: activeColors.MidnightBlack,
           },
-        ]}>
-        {firstName}xx
-      </Text>
-    </Pressable>
-  );
-};
+        ]}
+        onPress={() => movieStore.addMovie(movie)} // Add movie to the MobX store on press
+      >
+        <Image source={{uri: image}} style={styles.MoviesGridItemImage} />
+        <Text
+          style={[
+            styles.MoviesGridItemName,
+            {
+              color: activeColors.DeepInk,
+            },
+          ]}>
+          {firstName}
+        </Text>
+      </Pressable>
+    );
+  },
+);
 
 export default MoviesGridItem;
 

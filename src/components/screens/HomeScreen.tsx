@@ -40,7 +40,8 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
 
   const handleLogout = async () => {
     await clearLoginState();
-    navigation.replace('Login');
+    // navigation.replace('Login');
+    navigation.navigate('SelectedMovie');
   };
 
   let screenContent;
@@ -60,7 +61,11 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
             numColumns={2}
             keyExtractor={item => item.imdbID}
             renderItem={({item}) => (
-              <MoviesGridItem image={item.Poster} firstName={item.Title} />
+              <MoviesGridItem
+                image={item.Poster}
+                firstName={item.Title}
+                movie={item} // Pass the full movie object here
+              />
             )}
           />
         )}
@@ -69,7 +74,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
             contentContainerStyle={styles.MoviesList}
             data={moviesList}
             keyExtractor={item => item.imdbID}
-            renderItem={({item}) => <MoviesListItem MoviesyItem={item} />}
+            renderItem={({item}) => <MoviesListItem movie={item} />}
           />
         )}
       </View>

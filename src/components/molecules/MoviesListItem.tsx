@@ -1,32 +1,33 @@
 import React, {useContext} from 'react';
-import {
-  Image,
-  ListRenderItemInfo,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
-import {Swipeable} from 'react-native-gesture-handler';
+import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import {observer} from 'mobx-react-lite';
 
 // Colors
 import {Colors} from '../../../constants/Colors';
-
-// Navigation
-import {Moviesy} from '../../navigation/MoviesStackNavigator';
 
 // Theme Context
 import {ThemeContext} from '../../context/ThemeContext';
 import PropBasedIcon from '../atoms/PropBasedIcon';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import movieStore from '../../redux/store';
 
 type MoviesListItemProps = {
-  MoviesyItem: ListRenderItemInfo<Moviesy>;
+  movie: {
+    Title: string;
+    Year: string;
+    imdbID: string;
+    Type: string;
+    Poster: string;
+  };
 };
 
-const MoviesListItem = ({MoviesyItem}: MoviesListItemProps) => {
+const MoviesListItem: React.FC<MoviesListItemProps> = observer(({movie}) => {
   const {theme} = useContext(ThemeContext);
   let activeColors = (Colors as any)[theme.mode];
+
+  if (!movie) {
+    return <Text>No movie data available</Text>;
+  }
 
   return (
     <Pressable
@@ -36,9 +37,11 @@ const MoviesListItem = ({MoviesyItem}: MoviesListItemProps) => {
           backgroundColor: activeColors.PureWhite,
           shadowColor: activeColors.MidnightBlack,
         },
-      ]}>
+      ]}
+      onPress={() => movieStore.addMovie(movie)} // Add movie to the MobX store on press
+    >
       <Image
-        source={{uri: MoviesyItem.Poster}}
+        source={{uri: movie.Poster}}
         style={[
           styles.MoviesListItemImage,
           {
@@ -54,7 +57,7 @@ const MoviesListItem = ({MoviesyItem}: MoviesListItemProps) => {
               color: activeColors.DeepInk,
             },
           ]}>
-          {MoviesyItem.Title}
+          {movie.Title}
         </Text>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <View
@@ -78,7 +81,7 @@ const MoviesListItem = ({MoviesyItem}: MoviesListItemProps) => {
                 color: activeColors.SlateGrey,
               },
             ]}>
-            Year {MoviesyItem.Year}
+            Year {movie.Year}
           </Text>
         </View>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -103,13 +106,13 @@ const MoviesListItem = ({MoviesyItem}: MoviesListItemProps) => {
                 color: activeColors.SlateGrey,
               },
             ]}>
-            Type {MoviesyItem.Type}
+            Type {movie.Type}
           </Text>
         </View>
       </View>
     </Pressable>
   );
-};
+});
 const styles = StyleSheet.create({
   MoviesListItemContainer: {
     flexDirection: 'row',

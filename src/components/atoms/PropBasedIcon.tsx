@@ -1,16 +1,22 @@
 import React from 'react';
+import {IconProps} from 'react-native-vector-icons/Icon';
 
-type PropBasedIconProps<T> = {
-    component: React.ComponentType<any>,
-    name: string,
-    color: string,
-    size: number
+// Define the props for the `PropBasedIcon` component
+type PropBasedIconProps = {
+  component: React.ComponentType<IconProps>;
+  name: string;
+  color: string;
+  size: number;
 };
 
-const PropBasedIcon = <T extends React.ComponentType<any>>({ component: IconComponent, name, color, size }: PropBasedIconProps<T>) => {
-    return (
-        <IconComponent name={name} size={size} color={color} />
-    );
+// Use the props to render the icon component
+const PropBasedIcon: React.FC<PropBasedIconProps> = ({
+  component: IconComponent,
+  name,
+  color,
+  size,
+}) => {
+  return <IconComponent name={name} size={size} color={color} />;
 };
 
 export default PropBasedIcon;

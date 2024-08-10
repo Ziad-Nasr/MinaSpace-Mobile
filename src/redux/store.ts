@@ -13,8 +13,12 @@ function createMovieStore() {
     selectedMovie: [] as Movie[],
 
     addMovie(movie: Movie) {
+    const isMovieInList = this.selectedMovie.some(m => m.imdbID === movie.imdbID);
+    
+    if (!isMovieInList) {
       this.selectedMovie.push(movie);
-    },
+    }
+  },
 
     removeMovie(imdbID: string) {
       this.selectedMovie = this.selectedMovie.filter(

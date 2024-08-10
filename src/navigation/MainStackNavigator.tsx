@@ -5,6 +5,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import LoginPage from '../components/pages/LoginPage';
 import SplashPage from '../components/pages/SplashPage';
 import HomePage from '../components/pages/HomePage';
+import SelectedMoviesScreen from '../components/screens/SelectedMovieScreen';
 
 export type RootStackParamList = {
   Splash: undefined;
@@ -15,6 +16,7 @@ export type RootStackParamList = {
   ConfirmationCode: {mobileNumber: string; title: string};
   Password: undefined;
   Success: undefined;
+  SelectedMovie: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -35,6 +37,11 @@ const MainStackNavigator = () => {
       <Stack.Screen
         name="HomePage"
         component={HomePage}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="SelectedMovie"
+        component={SelectedMoviesScreen}
         options={{headerShown: false}}
       />
     </Stack.Navigator>
